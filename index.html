@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- 元信息，不显示 -->
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A novel method for synchronously generating multi-view hand-object interaction videos and 4D motion.">
+  <meta name="keywords" content="hand-object interaction, multi-view generation, joint diffusion, visual prior, motion dynamic">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SyncMV4D: Synchronized Multi-view Joint Diffusion of Appearance and Motion for Hand-Object Interaction Synthesis</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+<!-- 顶部导航条 -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://Droliven.github.io/me/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://github.com/Droliven/MSRGCN">
+            MSR-GCN (ICCV 21)
+          </a>
+          <a class="navbar-item" href="https://github.com/Droliven/diverse_sampling">
+            DiverseSamp (ACM MM 22)
+          </a>
+          <a class="navbar-item" href="https://droliven.github.io/SViMo_project">
+            SViMo (NeurIPS 25)
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title">SyncMV4D: Synchronized Multi-view Joint Diffusion of Appearance and Motion for Hand-Object Interaction Synthesis</h1>
+          <h2 class="title is-4">ArXiv 2025</h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://Droliven.github.io/me/">Lingwei Dang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="">Zonghan Li</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=2_WmrJYAAAAJ">Juntong Li</a><sup>1</sup>,
+            <span class="author-block">
+              <a href="https://zhanghongwen.cn/">Hongwen Zhang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://anl13.github.io/">Liang An</a><sup>3</sup>,
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=ogXIdlYAAAAJ">Yebin Liu</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=n6e_2IgAAAAJ">Qingyao Wu
+              </a><sup>1#</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>School of Software Engineering, South China University of Technology</span>
+            <br>
+            <span class="author-block"><sup>2</sup>School of Artificial Intelligence, Beijing Normal University</span>
+            <br>
+            <span class="author-block"><sup>3</sup>Department of Automation, Tsinghua University</span>
+            <!-- <br>
+            <span class="author-block"><sup>4</sup>Shadow AI</span> -->
+<!--             <span class="eql-cntrb"><small><br><sup>*</sup>Equal contributions.</small></span> -->
+<!--             <span class="eql-cntrb"><small><br><sup>†</sup>Corresponding author.</small></span> -->
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="static/pdfs/syncmv4d_arxiv.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2511.xxxxx"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://youtu.be/G7pda3nmV70"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/Droliven/syncmv4d_code/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Poster Link.
+              <span class="link-block">
+                <a href="./static/images/svimo_poster.png"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Poster</span>
+                </a>
+              </span>
+               Slides Link.
+              <span class="link-block">
+                <a href="static/pdfs/svimo_slides.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Slides</span>
+                </a>
+              </span> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser Image -->
+<section class="hero teaser teaser-top-padding">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" id="tree" alt="Teaser image" width="100%" height="120%">
+      <div style="width: 100%; margin: auto;">
+        <p class="subtitle has-text-centered teaser-caption-margin" style="font-size:1.05em;">
+          Our synchronized multi-view joint diffusion (SyncMV4D) simultaneously models multi-view geometry, visual appearance, and motion dynamics. It is capable of generating both multi-view hand-object interaction videos (left) and 4D motion sequences, comprising intermediate coarse pseudo videos (middle) and refined point tracks (right), with results achieving visual realism, dynamic plausibility, and geometric consistency.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End teaser image -->
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- <gradio-app
+      src="http://101.230.144.196:7810"
+      eager="true"
+    ></gradio-app> -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-4">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Hand-Object Interaction (HOI) generation plays a critical role in advancing applications across animation and robotics. Current video-based methods are predominantly single-view, which impedes comprehensive 3D geometry perception and often results in geometric distortions or unrealistic motion patterns. While 3D HOI approaches can generate dynamically plausible motions, their dependence on high-quality 3D data captured in controlled laboratory settings severely limits their generalization to real-world scenarios. To overcome these limitations, we introduce SyncMV4D, the first model that jointly generates synchronized multi-view HOI videos and 4D motions by unifying visual prior, motion dynamics, and multi-view geometry. Our framework features two core innovations: (1) a Multi-view Joint Diffusion (MJD) model that co-generates HOI videos and intermediate motions, and (2) a Diffusion Points Aligner (DPA) that refines the coarse intermediate motion into globally aligned 4D metric point tracks. To tightly couple 2D appearance with 4D dynamics, we establish a closed-loop, mutually enhancing cycle. During the diffusion denoising process, the generated video conditions the refinement of the 4D motion, while the aligned 4D point tracks are reprojected to guide next-step joint generation. Experimentally, our method demonstrates superior performance to state-of-the-art alternatives in visual realism, motion plausibility, and multi-view consistency.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <!-- Paper video. -->
+    <div class="container is-max-desktop">
+      <div class="column is-centered has-text-centered">
+        <h2 class="title is-4">Video</h2>
+        <div class="publication-video">
+          <!-- <iframe src="https://youtu.be/H1ISaXiiKtk" -->
+          <iframe src="static/videos/syncmv4d.mp4"
+              frameborder="0" encrypted-media allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<!-- =================================================== -->
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-4">Overall Architecture</h2>
+        <div class="content has-text-justified">
+          <!-- <p>Here we show some results in the paper. More vivid animation results are provided in the <a href="https://youtu.be/pVkntn-8KHo">video</a> above.</p> -->
+           <img src="static/images/pipeline.png" id="tree" alt="Teaser image" width="100%">
+          <p>Our SyncMV4D consists of two key components: First, the Multi-view Joint Diffusion (MJD) module generates synchronized multi-view color videos, intermediate motion pseudo videos, and metric depth scales (Sec. 3.3). Second, the Diffusion Points Aligner (DPA) module takes the resulting coarse 4D motions as a conditioning signal to reconstruct globally aligned 4D point tracks (Sec. 3.4). Furthermore, since both MJD and DPA are iterative denoisers, the refined 4D point tracks from DPA are fed back to guide MJD in subsequent denoising steps, forming a closed-loop mutual enhancement cycle (Sec. 3.5).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- =================================================== -->
+
+<section class="hero is-light is-big", style="margin-top: -35px">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <br>
+        <br>
+        <h2 class="title is-4">🔥Highlights</h2>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-five-fifths">
+        <p style="font-size: 20px;"> 
+          1. The first <span style="color: rgb(176, 152, 31)"> synchronized multi-view HOI generation method</span>, that can synthesize results with high visual quality, motion plausibility, and view consistency, requires only reference images and text.
+        </p>
+        <br>
+        <p style="font-size: 20px;">
+          2. A <span style="color: rgb(176, 152, 31)"> multi-view joint diffusion (MJD) framework </span>of video and motion that unifies visual prior, motion dynamics, and multi-view geometry modeling.
+        </p>
+        <br>
+        <p style="font-size: 20px;">
+          3. A <span style="color: rgb(176, 152, 31)">Diffusion Points Aligner (DPA) module with closed-loop feedback </span>refines the per-view misaligned coarse motions from MJD into globally aligned 4D point tracks and is co-optimized with the multi-view joint diffusion.
+        </p>
+        <br><br>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================== 
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-4">Experiment Results</h2>
+        <div class="content has-text-justified">
+           <p>Here we show some results in the paper. More vivid animation results are provided in the <a href="https://youtu.be/pVkntn-8KHo">video</a> above.</p>
+          <p>Here we show some results in the paper. More vivid animation results are provided in the <a href="static/videos/video_20306_v3.mp4">video</a> above.</p>
+          <p>For video generation, Our method benefits from the synchronized modeling of visual and dynamic, resulting in the better Overall score. 
+            As for motion generation, our approach not only preserves input condition effectiveness through a triple-modality adaptive modulation mechanism, but also enhances object point cloud consistency with low-level visual priors.</p>
+          <ol>
+            <li>
+              <strong>Qualitative comparison</strong>. 
+              <p> </p>
+              <img src="static/images/fig3.png" alt="MultiSPA benchmark" style="width:90%; margin:auto; display:block;">
+              <p> </p>
+              <img src="static/images/fig4.png" alt="MultiSPA benchmark" style="width:90%; margin:auto; display:block;">
+              <p> </p>
+            </li>
+            <li>
+              <strong>Quantitative evaluation and user study results</strong>. 
+              <p> </p>
+              <img src="static/images/table1.png" alt="MultiSPA benchmark" style="width:70%; margin:auto; display:block;">
+              <p> </p>
+              <img src="static/images/table2.png" alt="MultiSPA benchmark" style="width:44%; margin:auto; display:block;">
+              <p> </p>
+              <img src="static/images/fig5.png" alt="MultiSPA benchmark" style="width:90%; margin:auto; display:block;">
+              <p> </p>
+            </li>
+            <li>
+              <strong>Zero-shot Generalization on Real-world Data</strong>. 
+              <p> </p>
+              <img src="static/images/fig6.png" alt="MultiSPA benchmark" style="width:90%; margin:auto; display:block;">
+              <p> </p>
+            </li>
+        </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>-->
+<!-- =================================================== -->
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <!-- <pre><code>@inproceedings{dang2025svimo,
+    title={SViMo: Synchronized Diffusion for Video and Motion Generation in Hand-object Interaction Scenarios},
+    author={Dang, Lingwei and Shao, Ruizhi and Zhang, Hongwen and Min, Wei and Liu, Yebin and Wu, Qingyao},
+    booktitle=NeurIPS,
+    year={2025}
+  }</code></pre> -->
+  <pre><code></code>@article{dang2025syncmv4d,
+    title={SyncMV4D: Synchronized Multi-view Joint Diffusion of Appearance and Motion for Hand-Object Interaction Synthesis},
+    author={Dang, Lingwei and Li, Zonghan and Li, Juntong and Zhang, Hongwen and An, Liang and Liu, Yebin and Wu, Qingyao},
+    journal={arXiv preprint arXiv:2511.xxxxx},
+    year={2025}
+  }</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
