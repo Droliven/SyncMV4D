@@ -1,4 +1,4 @@
-# SViMo Project Website
+# SyncMV4D Project Website
 > This is the repository that contains source code for the [SyncMV4D website](https://droliven.github.io/SyncMV4D).
 
 
@@ -9,11 +9,11 @@
 - [\[PDF\]](static/pdfs/syncmv4d_arxiv.pdf).
 - Video-Youtube: [https://youtu.be/G7pda3nmV70](https://youtu.be/G7pda3nmV70).
 - Video-Local: [static/videos/syncmv4d.mp4](static/videos/syncmv4d.mp4).
-<!-- - Poster: [static/images/svimo_poster.png](static/images/svimo_poster.png). -->
-<!-- - Slides: [static/pdfs/svimo_slides.pdf](static/pdfs/svimo_slides.pdf). -->
 - Code: [https://github.com/Droliven/syncmv4d_code/](https://github.com/Droliven/syncmv4d_code/).
 - Models: Coming soon.
 - Dataset: Coming soon.
+<!-- - Poster: [static/images/svimo_poster.png](static/images/svimo_poster.png). -->
+<!-- - Slides: [static/pdfs/svimo_slides.pdf](static/pdfs/svimo_slides.pdf). -->
 
 ---
 
