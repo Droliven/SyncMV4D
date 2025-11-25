@@ -5,7 +5,7 @@
 - Title: SyncMV4D: Synchronized Multi-view Joint Diffusion of Appearance and Motion for Hand-Object Interaction Synthesis
 - TL;DR: A novel method for synchronously generating multi-view hand-object interaction videos and 4D motion.
 - Project page: [https://droliven.github.io/SyncMV4D/](https://droliven.github.io/SyncMV4D/).
-- arxiv: [https://arxiv.org/abs/2511.XXXXX](https://arxiv.org/abs/2511.XXXXX).
+- arxiv: [https://arxiv.org/abs/2511.19319](https://arxiv.org/abs/2511.19319).
 - [\[PDF\]](static/pdfs/syncmv4d_arxiv.pdf).
 - Video-Youtube: [https://youtu.be/G7pda3nmV70](https://youtu.be/G7pda3nmV70).
 - Video-Local: [static/videos/syncmv4d.mp4](static/videos/syncmv4d.mp4).
@@ -22,7 +22,7 @@ If you find Nerfies useful for your work please cite:
 @article{dang2025syncmv4d,
     title={SyncMV4D: Synchronized Multi-view Joint Diffusion of Appearance and Motion for Hand-Object Interaction Synthesis},
     author={Dang, Lingwei and Li, Zonghan and Li, Juntong and Zhang, Hongwen and An, Liang and Liu, Yebin and Wu, Qingyao},
-    journal={arXiv preprint arXiv:2511.xxxxx},
+    journal={arXiv preprint arXiv:2511.19319},
     year={2025}
 }
 ```
